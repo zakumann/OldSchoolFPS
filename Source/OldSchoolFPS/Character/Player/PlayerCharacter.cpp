@@ -40,6 +40,9 @@ void APlayerCharacter::BeginPlay()
             Subsystem->AddMappingContext(DefaultMappingContext, 0);
         }
     }
+
+    // Set default walk speed
+    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 // Called to bind functionality to input
@@ -53,6 +56,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
         EnhancedInput->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Look);
         EnhancedInput->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
         EnhancedInput->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+        EnhancedInput->BindAction(IA_Sprint, ETriggerEvent::Started, this, &APlayerCharacter::StartSprinting);
+        EnhancedInput->BindAction(IA_Sprint, ETriggerEvent::Completed, this, &APlayerCharacter::StopSprinting);
     }
 }
 
@@ -69,6 +74,16 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
     FVector2D LookAxis = Value.Get<FVector2D>();
     AddControllerYawInput(LookAxis.X);
     AddControllerPitchInput(LookAxis.Y);
+}
+
+void APlayerCharacter::StartSprinting()
+{
+    GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
+}
+
+void APlayerCharacter::StopSprinting()
+{
+    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 // Called every frame

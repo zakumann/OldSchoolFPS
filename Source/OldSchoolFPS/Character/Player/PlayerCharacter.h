@@ -36,9 +36,24 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* JumpAction;
 
+	// Sprint input action
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* IA_Sprint;
+
+	// Base and sprint speeds
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
+	float WalkSpeed = 600.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
+	float SprintSpeed = 1200.f;
+
 	// Movement
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+
+	// Sprint handlers
+	void StartSprinting();
+	void StopSprinting();
 
 public:	
 	// Called every frame

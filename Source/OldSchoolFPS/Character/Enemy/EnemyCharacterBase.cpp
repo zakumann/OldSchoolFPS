@@ -15,20 +15,23 @@ AEnemyCharacterBase::AEnemyCharacterBase()
 void AEnemyCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	CurrentHealth = MaxHealth;
 }
 
-// Called every frame
-void AEnemyCharacterBase::Tick(float DeltaTime)
+void AEnemyCharacterBase::ApplyDamage(float DamageAmount)
 {
-	Super::Tick(DeltaTime);
+    if (IsDead()) return;
 
+    CurrentHealth -= DamageAmount;
+
+    if (CurrentHealth <= 0.0f)
+    {
+        Die();
+    }
 }
 
-// Called to bind functionality to input
-void AEnemyCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AEnemyCharacterBase::Die_Implementation()
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+    // Default death behavior — can be overridden in Blueprint
+    Destroy();
 }
-
