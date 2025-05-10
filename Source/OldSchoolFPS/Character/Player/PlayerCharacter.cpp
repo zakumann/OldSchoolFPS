@@ -58,6 +58,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
         EnhancedInput->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
         EnhancedInput->BindAction(IA_Sprint, ETriggerEvent::Started, this, &APlayerCharacter::StartSprinting);
         EnhancedInput->BindAction(IA_Sprint, ETriggerEvent::Completed, this, &APlayerCharacter::StopSprinting);
+        EnhancedInput->BindAction(FireAction, ETriggerEvent::Started, this, &APlayerCharacter::Fire);
     }
 }
 
@@ -74,6 +75,10 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
     FVector2D LookAxis = Value.Get<FVector2D>();
     AddControllerYawInput(LookAxis.X);
     AddControllerPitchInput(LookAxis.Y);
+}
+void APlayerCharacter::Fire()
+{
+    UE_LOG(LogTemp, Warning, TEXT("Pew pew!")); // Hook this up to a weapon class
 }
 
 void APlayerCharacter::StartSprinting()

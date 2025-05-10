@@ -36,6 +36,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* JumpAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* FireAction;
+
 	// Sprint input action
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* IA_Sprint;
@@ -50,10 +53,15 @@ protected:
 	// Movement
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+	
+	//Fire
+	void Fire();
 
 	// Sprint handlers
 	void StartSprinting();
 	void StopSprinting();
+
+	
 
 public:	
 	// Called every frame
