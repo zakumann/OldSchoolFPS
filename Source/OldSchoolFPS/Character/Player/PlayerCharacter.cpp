@@ -52,8 +52,10 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
     if (UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(PlayerInputComponent))
     {
-        EnhancedInput->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Move);
-        EnhancedInput->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Look);
+        EnhancedInput->BindAction(IA_MoveForward, ETriggerEvent::Triggered, this, &APlayerCharacter::MoveForward);
+        EnhancedInput->BindAction(IA_MoveRight, ETriggerEvent::Triggered, this, &APlayerCharacter::MoveRight);
+        EnhancedInput->BindAction(IA_LookUp, ETriggerEvent::Triggered, this, &APlayerCharacter::LookUp);
+        EnhancedInput->BindAction(IA_Turn, ETriggerEvent::Triggered, this, &APlayerCharacter::Turn);
         EnhancedInput->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
         EnhancedInput->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
         EnhancedInput->BindAction(IA_Sprint, ETriggerEvent::Started, this, &APlayerCharacter::StartSprinting);
@@ -63,19 +65,31 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 }
 
 
-void APlayerCharacter::Move(const FInputActionValue& Value)
+void APlayerCharacter::MoveForward(const FInputActionValue& Value)
 {
     FVector2D Input = Value.Get<FVector2D>();
     AddMovementInput(GetActorForwardVector(), Input.Y);
+}
+
+void APlayerCharacter::MoveRight(const FInputActionValue& Value)
+{
+    FVector2D Input = Value.Get<FVector2D>();
     AddMovementInput(GetActorRightVector(), Input.X);
 }
 
-void APlayerCharacter::Look(const FInputActionValue& Value)
+void APlayerCharacter::LookUp(const FInputActionValue& Value)
+{
+    FVector2D LookAxis = Value.Get<FVector2D>();
+    AddControllerPitchInput(LookAxis.Y);
+}
+
+void APlayerCharacter::Turn(const FInputActionValue& Value)
 {
     FVector2D LookAxis = Value.Get<FVector2D>();
     AddControllerYawInput(LookAxis.X);
-    AddControllerPitchInput(LookAxis.Y);
+
 }
+
 void APlayerCharacter::Fire()
 {
     UE_LOG(LogTemp, Warning, TEXT("Pew pew!")); // Hook this up to a weapon class

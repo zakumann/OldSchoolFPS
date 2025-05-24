@@ -8,30 +8,20 @@ AEnemyCharacterBase::AEnemyCharacterBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	Health = 100.0f;
 }
 
 // Called when the game starts or when spawned
 void AEnemyCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	CurrentHealth = MaxHealth;
 }
 
-void AEnemyCharacterBase::ApplyDamage(float DamageAmount)
+void AEnemyCharacterBase::TakeDamage(float DamageAmount)
 {
-    if (IsDead()) return;
-
-    CurrentHealth -= DamageAmount;
-
-    if (CurrentHealth <= 0.0f)
+    Health -= DamageAmount;
+    if (Health <= 0.0f)
     {
-        Die();
+        Destroy();
     }
-}
-
-void AEnemyCharacterBase::Die_Implementation()
-{
-    // Default death behavior — can be overridden in Blueprint
-    Destroy();
 }

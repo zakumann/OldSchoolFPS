@@ -28,10 +28,16 @@ protected:
 	UInputMappingContext* DefaultMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* MoveAction;
+	UInputAction* IA_MoveForward;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* LookAction;
+	UInputAction* IA_MoveRight;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* IA_LookUp;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* IA_Turn;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* JumpAction;
@@ -45,14 +51,18 @@ protected:
 
 	// Base and sprint speeds
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
-	float WalkSpeed = 600.f;
+	float WalkSpeed = 800.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
-	float SprintSpeed = 1200.f;
+	float SprintSpeed = 1400.f;
 
-	// Movement
-	void Move(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
+	// Movement functions
+	void MoveForward(const FInputActionValue& Value);
+	void MoveRight(const FInputActionValue& Value);
+
+	// Look functions
+	void LookUp(const FInputActionValue& Value);
+	void Turn(const FInputActionValue& Value);
 	
 	//Fire
 	void Fire();
